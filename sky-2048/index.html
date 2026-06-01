@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sky 2048 — Ethereal Ascent</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="game-container">
+  <canvas id="bg-canvas"></canvas>
+  <canvas id="stars-canvas"></canvas>
+  <header>
+    <h1>☁️ Sky 2048</h1>
+    <div class="scores">
+      <div class="score-box">
+        <span class="label">ALTITUDE</span>
+        <span id="score">0</span>
+      </div>
+      <div class="score-box">
+        <span class="label">PEAK</span>
+        <span id="best-score">0</span>
+      </div>
+    </div>
+    <div class="controls">
+      <button id="new-game-btn">🌬️ New Flight</button>
+      <div class="weather-indicator">
+        <span id="weather-icon">🌤</span>
+        <span id="weather-name">Clear Skies</span>
+      </div>
+    </div>
+  </header>
+  
+  <div id="board-wrapper">
+    <div id="board">
+      <!-- 4x4 grid -->
+    </div>
+    <canvas id="cloud-canvas"></canvas>
+  </div>
+  
+  <div id="game-over-overlay" class="hidden">
+    <div class="overlay-content">
+      <h2>🌫️ Lost in the Fog</h2>
+      <p>Your ascent reached <span id="final-score">0</span></p>
+      <button id="restart-btn">🌬️ Take Flight Again</button>
+    </div>
+  </div>
+  
+  <div id="win-overlay" class="hidden">
+    <div class="overlay-content">
+      <h2>🌌 Cosmic Harmony!</h2>
+      <p>You reached 2048! Ascend further?</p>
+      <button id="continue-btn">✨ Continue Ascending</button>
+      <button id="restart-btn-win">🌬️ New Flight</button>
+    </div>
+  </div>
+  
+  <div class="instructions">
+    <p>Use <kbd>↑</kbd> <kbd>↓</kbd> <kbd>←</kbd> <kbd>→</kbd> or swipe to merge tiles</p>
+    <p class="legend">Mist → Cloud → Wind → Gale → Storm → Thunder → Cosmos → Nebula → Galaxy → Beyond</p>
+  </div>
+</div>
+<script src="game.js"></script>
+</body>
+</html>
