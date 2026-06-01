@@ -379,6 +379,24 @@ function addRootLine(r, c) {
   setTimeout(fade, 500);
 }
 
+// Ambient particles (pollen/leaves floating around)
+let ambientTimer = 0;
+function spawnAmbientParticles() {
+  ambientTimer++;
+  if (ambientTimer % 30 === 0) { // Every ~0.5 seconds
+    particles.push({
+      x: Math.random() * window.innerWidth,
+      y: window.innerHeight + 10,
+      vx: (Math.random() - 0.5) * 0.5,
+      vy: -Math.random() * 0.5 - 0.2,
+      life: 1,
+      decay: 0.003 + Math.random() * 0.005,
+      size: 2 + Math.random() * 3,
+      type: Math.random() < 0.7 ? 'pollen' : 'leaf'
+    });
+  }
+}
+
 // Particles
 function spawnMergeParticles(r, c) {
   const center = getCellCenter(r, c);
@@ -386,21 +404,22 @@ function spawnMergeParticles(r, c) {
   const cx = boardRect.left + center.x;
   const cy = boardRect.top + center.y;
   
-  for (let i = 0; i < 6; i++) {
+  for (let i = 0; i < 8; i++) {
     particles.push({
       x: cx,
       y: cy,
-      vx: (Math.random() - 0.5) * 3,
-      vy: -Math.random() * 3 - 1,
+      vx: (Math.random() - 0.5) * 4,
+      vy: -Math.random() * 4 - 1,
       life: 1,
       decay: 0.01 + Math.random() * 0.02,
-      size: 3 + Math.random() * 4,
+      size: 3 + Math.random() * 5,
       type: Math.random() < 0.5 ? 'leaf' : 'pollen'
     });
   }
 }
 
 function updateParticles() {
+  spawnAmbientParticles();
   partCtx.clearRect(0, 0, particlesCanvas.width, particlesCanvas.height);
   
   particles = particles.filter(p => {

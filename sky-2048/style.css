@@ -241,7 +241,13 @@ h1 {
 }
 
 .tile-merged {
-  animation: tile-merge-glow 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  animation: tile-merge-glow 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), ethereal-glow 0.6s ease-out;
+}
+
+@keyframes ethereal-glow {
+  0% { box-shadow: 0 0 0px rgba(160, 212, 255, 0); }
+  50% { box-shadow: 0 0 30px rgba(160, 212, 255, 0.6), 0 0 60px rgba(160, 212, 255, 0.3); }
+  100% { box-shadow: 0 0 0px rgba(160, 212, 255, 0); }
 }
 
 @keyframes tile-appear {
@@ -302,16 +308,25 @@ h1 {
   background: linear-gradient(135deg, #7e57c2, #5e35b1); 
   color: #ede7f6; 
   box-shadow: 0 3px 12px rgba(0,0,0,0.3), 0 0 40px rgba(126, 87, 194, 0.5);
+  animation: cosmic-float 3.5s ease-in-out infinite;
 }
 .tile-256 { 
   background: linear-gradient(135deg, #ab47bc, #8e24aa); 
   color: #f3e5f5; 
   box-shadow: 0 3px 12px rgba(0,0,0,0.3), 0 0 45px rgba(171, 71, 188, 0.5);
+  animation: cosmic-float 3s ease-in-out infinite;
 }
 .tile-512 { 
   background: linear-gradient(135deg, #ec407a, #c2185b); 
   color: #fce4ec; 
   box-shadow: 0 3px 12px rgba(0,0,0,0.3), 0 0 50px rgba(236, 64, 122, 0.5);
+  animation: cosmic-float 2.5s ease-in-out infinite;
+}
+
+@keyframes cosmic-float {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  25% { transform: translateY(-4px) rotate(0.5deg); }
+  75% { transform: translateY(2px) rotate(-0.5deg); }
 }
 .tile-1024 { 
   background: linear-gradient(135deg, #ffa726, #f57c00); 

@@ -127,15 +127,25 @@ function resizeCanvas() {
 
 function initStars() {
   stars = [];
-  for (let i = 0; i < 200; i++) {
-    stars.push({
-      x: Math.random() * window.innerWidth,
-      y: Math.random() * window.innerHeight,
-      size: Math.random() * 2 + 0.5,
-      brightness: Math.random(),
-      twinkleSpeed: Math.random() * 0.02 + 0.01,
-      twinklePhase: Math.random() * Math.PI * 2
-    });
+  // Multiple parallax layers for depth
+  for (let layer = 0; layer < 3; layer++) {
+    const count = layer === 0 ? 80 : layer === 1 ? 60 : 40;
+    const speed = layer === 0 ? 0.3 : layer === 1 ? 0.6 : 1;
+    const sizeBase = layer === 0 ? 0.5 : layer === 1 ? 1.0 : 1.8;
+    
+    for (let i = 0; i < count; i++) {
+      stars.push({
+        x: Math.random() * window.innerWidth,
+        y: Math.random() * window.innerHeight,
+        size: Math.random() * 2 + sizeBase,
+        brightness: Math.random() * 0.7 + 0.3,
+        twinkleSpeed: Math.random() * 0.02 + 0.01,
+        twinklePhase: Math.random() * Math.PI * 2,
+        layer: layer,
+        speed: speed,
+        driftX: (Math.random() - 0.5) * 0.2
+      });
+    }
   }
 }
 
@@ -424,18 +434,33 @@ function animateStars() {
   const starVisibility = Math.min(1, Math.max(0, (maxTile - 64) / 512));
   
   if (starVisibility > 0) {
+    // Update star positions with parallax drift
     stars.forEach(star => {
+      star.x += star.driftX * star.speed;
+      if (star.x < -10) star.x = window.innerWidth + 10;
+      if (star.x > window.innerWidth + 10) star.x = -10;
+      
       const twinkle = Math.sin(starTime * star.twinkleSpeed * 60 + star.twinklePhase) * 0.3 + 0.7;
-      starsCtx.globalAlpha = starVisibility * star.brightness * twinkle;
-      starsCtx.fillStyle = '#fff';
+      const layerAlpha = star.layer === 2 ? 1 : star.layer === 1 ? 0.8 : 0.6;
+      starsCtx.globalAlpha = starVisibility * star.brightness * twinkle * layerAlpha;
+      
+      // Different colors per layer for depth
+      if (star.layer === 2) {
+        starsCtx.fillStyle = '#ffd700'; // Gold for closest
+      } else if (star.layer === 1) {
+        starsCtx.fillStyle = '#fff';
+      } else {
+        starsCtx.fillStyle = '#a0d4ff'; // Blue for distant
+      }
+      
       starsCtx.beginPath();
       starsCtx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
       starsCtx.fill();
       
       // Star glow for brighter stars
-      if (star.brightness > 0.7) {
+      if (star.brightness > 0.7 && star.layer > 0) {
         starsCtx.globalAlpha = starVisibility * star.brightness * twinkle * 0.3;
-        starsCtx.fillStyle = '#a0d4ff';
+        starsCtx.fillStyle = star.layer === 2 ? '#ffd700' : '#a0d4ff';
         starsCtx.beginPath();
         starsCtx.arc(star.x, star.y, star.size * 3, 0, Math.PI * 2);
         starsCtx.fill();

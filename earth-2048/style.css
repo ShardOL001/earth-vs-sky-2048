@@ -249,6 +249,31 @@ h1 {
   100% { transform: scale(1); opacity: 1; }
 }
 
+/* Growth pulse - tiles slowly breathe like living things */
+@keyframes growth-pulse {
+  0%, 100% { transform: scale(1); filter: brightness(1); }
+  50% { transform: scale(1.02); filter: brightness(1.05); }
+}
+
+.tile {
+  animation: growth-pulse 3s ease-in-out infinite;
+}
+
+.tile:nth-child(2n) { animation-delay: -0.8s; }
+.tile:nth-child(3n) { animation-delay: -1.6s; }
+.tile:nth-child(4n) { animation-delay: -0.4s; }
+.tile:nth-child(5n) { animation-delay: -2.2s; }
+
+/* Higher value tiles pulse more prominently */
+.tile-128, .tile-256, .tile-512, .tile-1024, .tile-2048 {
+  animation: growth-pulse-strong 2.5s ease-in-out infinite;
+}
+
+@keyframes growth-pulse-strong {
+  0%, 100% { transform: scale(1); filter: brightness(1); }
+  50% { transform: scale(1.04); filter: brightness(1.1); }
+}
+
 @keyframes tile-merge {
   0% { transform: scale(1); }
   30% { transform: scale(1.25); }
